@@ -9,8 +9,7 @@ A Spotlight-style workspace and window switcher for [AeroSpace](https://github.c
   <img src="demo/spacelight_demo.jpg" alt="Spacelight switching workspaces" width="720">
 </p>
 
-Press your chosen key binding (eg. alt-f), a floating panel appears: use jk to select workspaces, type / to fuzzy-search your workspaces and windows, press Return to jump there.
-The panel never disturbs your window layout, needs no Accessibility permission, and stays idle at ~0% CPU between uses. Only non empty workspaces are shown.
+Press your chosen key binding (eg. alt-f), a floating panel appears with your current Aerospace workspaces and windows. Spacelight never disturbs your window layout, needs no Accessibility permission, and stays idle at ~0% CPU between uses. 
 
 ## Requirements
 
