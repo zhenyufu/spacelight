@@ -22,7 +22,7 @@ install: build
 	codesign -s - -f $(PREFIX)/bin/$(BINARY)
 	@echo "Installed to $(PREFIX)/bin/$(BINARY)"
 	@echo "Bind it in ~/.aerospace.toml, e.g.:"
-	@echo "  alt-space = 'exec-and-forget $(PREFIX)/bin/$(BINARY)'"
+	@echo "  alt-f = 'exec-and-forget $(PREFIX)/bin/$(BINARY)'"
 
 uninstall:
 	$(PREFIX)/bin/$(BINARY) quit || true

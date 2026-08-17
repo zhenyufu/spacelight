@@ -348,8 +348,10 @@ End to end, on this machine, with real windows open across both monitors.
 Replace the existing `alt-space` line in `~/.aerospace.toml` with a binding to the new command, on whatever key is preferred, and let the config auto-reload:
 
 ```toml
-alt-space = 'exec-and-forget /usr/local/bin/spacelight'
+alt-f = 'exec-and-forget /Users/YOUR_USERNAME/.local/bin/spacelight'
 ```
+
+`exec-and-forget` does not run through a shell, so `~` is not expanded and the path has to be literal.
 
 1. `make install`, which places one binary at `/usr/local/bin/spacelight` and nothing else. Confirm nothing is running yet with `pgrep -fl spacelight`.
 2. **Cold start works with no setup.** Press the bound key. The agent starts itself and the panel appears. `pgrep -fl spacelight` now shows exactly one agent. Press again and confirm the count stays at one.

@@ -41,7 +41,7 @@ Add a binding to `~/.aerospace.toml` under `[mode.main.binding]`, replacing `YOU
 
 ```toml
 [mode.main.binding]
-    alt-space = 'exec-and-forget /Users/YOUR_USERNAME/.local/bin/spacelight'
+    alt-f = 'exec-and-forget /Users/YOUR_USERNAME/.local/bin/spacelight'
 ```
 
 Use the full path rather than a bare `spacelight`, since `exec-and-forget` does not run through your shell's `PATH`.
@@ -49,7 +49,7 @@ Use the full path rather than a bare `spacelight`, since `exec-and-forget` does 
 If you have `auto-reload-config = true` in your config, saving the file is enough.
 Otherwise reload AeroSpace's config manually (`alt-shift-semicolon` then `esc` in the default config, or run `aerospace reload-config`).
 
-Any key works — `alt-space` is just an example. To use something else, change the key on the left; Spacelight neither knows nor cares which key launched it, so no rebuild or app-side config change is needed.
+Any key works — `alt-f` is just an example. To use something else, change the key on the left; Spacelight neither knows nor cares which key launched it, so no rebuild or app-side config change is needed.
 
 ## Usage
 
