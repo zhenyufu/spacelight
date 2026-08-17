@@ -3,9 +3,11 @@
 A Spotlight-style workspace and window switcher for [AeroSpace](https://github.com/nikitabobko/AeroSpace) on macOS.
 
 Press your chosen key binding (eg. alt-f), a floating panel appears over the current screen, use jk to select workspaces, type / to fuzzy-search your workspaces and windows, press Return to jump there.
-The panel never disturbs your window layout, needs no Accessibility permission, and stays idle at ~0% CPU between uses. Only non empty workspaces are shown
-## Demo 
-<img src="demo/spacelight_demo" alt="Spacelight switching workspaces" width="720">  
+The panel never disturbs your window layout, needs no Accessibility permission, and stays idle at ~0% CPU between uses. Only non empty workspaces are shown.
+
+## Demo
+
+<img src="demo/spacelight_demo.jpg" alt="Spacelight switching workspaces" width="720">
 
 ## Requirements
 
