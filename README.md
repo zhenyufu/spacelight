@@ -7,7 +7,9 @@ The panel never disturbs your window layout, needs no Accessibility permission, 
 
 ## Demo
 
-<img src="demo/spacelight_demo.jpg" alt="Spacelight switching workspaces" width="720">
+<p align="center">
+  <img src="demo/spacelight_demo.jpg" alt="Spacelight switching workspaces" width="720">
+</p>
 
 ## Requirements
 
