@@ -55,16 +55,30 @@ Any key works — `alt-f` is just an example. To use something else, change the 
 
 Press your bound key to open the panel. Press it again to close.
 
+The panel opens in **navigation mode** with your current workspace already highlighted, so you can move and jump without touching the search field. Press `/` to start searching. A footer along the bottom always lists the keys available in the current mode.
+
+Navigation mode:
+
+| Key | Action |
+| --- | --- |
+| `j` / `k` or `↓` / `↑` | Move the selection |
+| `Return` | Switch to the selected workspace or window |
+| `/` | Start searching |
+| `Esc` | Close the panel |
+| Click a row | Switch to it directly |
+
+Search mode:
+
 | Key | Action |
 | --- | --- |
 | Type anything | Fuzzy-filter workspaces and windows |
-| `↓` / `⌃N` / `⌃J` | Next result |
-| `↑` / `⌃P` / `⌃K` | Previous result |
+| `↓` / `↑` or `⌃J` / `⌃K` | Move the selection |
 | `Return` | Switch to the selected workspace or window |
-| `Esc` | Close without switching |
-| Click a row | Switch to it directly |
+| `Esc` | Cancel the search and return to navigation mode |
 
-Navigation uses `⌃J` / `⌃K` rather than bare `j` / `k` on purpose: focus is in a search field, and a bare `j` has to remain typeable for names like `japanese`. The arrow keys work the same way with no modifier.
+The two modes exist so that bare `j` and `k` can navigate. That only works while the search field is unfocused: with focus in a text field there is no way to tell "move down" from "the first letter of a query starting with `j`" at the moment the key is pressed. Hence `/` to search explicitly, and `⌃J` / `⌃K` while searching for anyone who prefers to keep their hands off the arrow keys.
+
+Escape is two-level: the first press cancels a search, the second closes the panel, so a mistyped query never costs you the whole session.
 
 The list shows:
 
@@ -110,7 +124,7 @@ To watch what the agent is doing:
 log stream --predicate 'subsystem == "com.spacelight"' --level debug
 ```
 
-`PLAN.md` documents the architecture and the reasoning behind the significant design decisions, including several that were tried and reverted.
+Note that `.debug`-level messages are not persisted by the unified logging system — they exist only while something is actively streaming them. `log stream` has to be running *before* you reproduce an issue, or there will be nothing to read afterwards.
 
 ## License
 

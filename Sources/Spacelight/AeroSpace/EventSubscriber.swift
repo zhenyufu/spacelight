@@ -5,7 +5,7 @@ private let log = Logger(subsystem: "com.spacelight", category: "event-subscribe
 
 /// Keeps one long-lived `aerospace subscribe --all` process running for the life of the agent and
 /// calls `onRelevantEvent` (debounced) whenever something happens that could make the cached
-/// snapshot stale. This is what lets `StateStore` stay "kept warm without polling" (see PLAN.md):
+/// snapshot stale. This is what keeps `StateStore` warm without polling:
 /// the only wakeups are real AeroSpace events, never a timer.
 ///
 /// `subscribe --all` emits `focus-changed`, `focused-workspace-changed`,

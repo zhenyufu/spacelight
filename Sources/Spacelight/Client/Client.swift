@@ -3,7 +3,7 @@ import Foundation
 
 /// The client side of a single press: connect to the agent's control socket, write one verb,
 /// and exit. This is the one part of the system where process startup latency is user-visible
-/// (see PLAN.md's latency budget), so it does the minimum possible amount of work: no JSON,
+/// so it does the minimum possible amount of work: no JSON,
 /// no argument parsing library, no retries beyond the one bounded wait for a freshly spawned agent.
 func runClient(verb: String) {
     guard ControlVerb(rawValue: verb) != nil else {

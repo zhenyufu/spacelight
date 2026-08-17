@@ -137,6 +137,15 @@ final class SwitcherPanel: NSPanel {
         return super.performKeyEquivalent(with: event)
     }
 
+    /// In navigation mode the search field is not first responder, so bare keystrokes fall all the
+    /// way through the responder chain to the window. That is what makes unmodified `j` / `k` / `/`
+    /// usable as commands here without stealing them from the user's typing: in search mode the
+    /// field editor consumes them long before this is reached.
+    override func keyDown(with event: NSEvent) {
+        if switcherViewController.handleNavigationKey(event) { return }
+        super.keyDown(with: event)
+    }
+
     // MARK: - Show / hide
 
     /// Whichever app was frontmost right before `show()` activated Spacelight, captured so `hide()`
@@ -158,14 +167,18 @@ final class SwitcherPanel: NSPanel {
             previousFrontmostApp = frontmost
         }
         screenForCurrentSession = NSScreen.main
-        // Clear before positioning: clearQuery() fires onQueryChanged, which re-filters and
-        // repositions with the full unfiltered row count. Positioning first would size the panel
-        // to the outgoing (possibly filtered) result count for a frame.
-        switcherViewController.clearQuery()
+        // Reset to navigation mode before positioning: entering navigation mode clears the query,
+        // which fires onQueryChanged and re-filters to the full unfiltered list. Positioning first
+        // would size the panel to the outgoing (possibly filtered) result count for a frame.
+        switcherViewController.enterNavigationMode()
         reposition(rowCount: rowCount)
         NSApp.activate()
         makeKeyAndOrderFront(nil)
-        switcherViewController.focusSearchField()
+        // makeFirstResponder(nil) inside enterNavigationMode() runs before the window is key, so
+        // re-assert it here to be certain no stale responder (the search field from a previous
+        // session) is left holding focus and swallowing navigation keys.
+        makeFirstResponder(nil)
+        switcherViewController.selectCurrentWorkspace()
     }
 
     /// Orders the panel out and reactivates whichever app was frontmost before `show()`. Callers

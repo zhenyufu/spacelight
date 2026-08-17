@@ -53,7 +53,7 @@ import Testing
     }
 
     @Test func rankingMatchesExpectedOrderForRealQueries() throws {
-        // Mirrors PLAN.md's verification scenario: "dev" should rank the "dev" workspace itself
+        // "dev" should rank the "dev" workspace itself
         // above an unrelated window that merely happens to contain the letters d, e, v in order.
         let items: [(name: String, haystack: String)] = [
             ("dev workspace", "dev"),

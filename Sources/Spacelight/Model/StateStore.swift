@@ -2,7 +2,7 @@ import Foundation
 
 /// Owns the last known snapshot and the current filtered/ranked result list. Runs on the main
 /// actor: filtering a few hundred short precomputed haystacks is fast enough to do synchronously
-/// on every keystroke (see PLAN.md's latency budget), so there's no need to push it to a background
+/// on every keystroke, so there's no need to push it to a background
 /// actor and pay a hop for it.
 ///
 /// One merged list: workspaces first, then windows, matching the order the original `ff()` shell
