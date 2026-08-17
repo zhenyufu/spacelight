@@ -2,8 +2,9 @@
 
 A Spotlight-style workspace and window switcher for [AeroSpace](https://github.com/nikitabobko/AeroSpace) on macOS.
 
-Press your chosen key, a floating panel appears over whatever you were doing, type to fuzzy-search your workspaces and windows, press Return to jump there.
+Press your chosen key binding (eg. alt-f), a floating panel appears over the current screen, use jk to select workspaces, type / to fuzzy-search your workspaces and windows, press Return to jump there.
 The panel never disturbs your window layout, needs no Accessibility permission, and stays idle at ~0% CPU between uses.
+## Demo 
 
 ## Requirements
 
@@ -11,8 +12,6 @@ The panel never disturbs your window layout, needs no Accessibility permission, 
 - [AeroSpace](https://github.com/nikitabobko/AeroSpace) installed and running
 - Xcode 16 or later (or the matching Swift 6 toolchain) to build from source
 
-Spacelight needs **no Accessibility, Screen Recording, or other permissions of its own**.
-It asks the already-running AeroSpace process to move focus, and AeroSpace is the one holding those permissions.
 
 ## Install
 
@@ -34,8 +33,7 @@ make uninstall
 
 ## Set up the keybinding
 
-Spacelight deliberately does **not** register a global hotkey of its own.
-No key combination is baked into the app, so all of your bindings stay in one file and no key can be silently claimed by something invisible from your AeroSpace config.
+Spacelight does **not** register a global hotkey of its own, and depends on your AeroSpace config for setting up a key binding.
 
 Add a binding to `~/.aerospace.toml` under `[mode.main.binding]`, replacing `YOUR_USERNAME` with your own:
 
@@ -44,12 +42,7 @@ Add a binding to `~/.aerospace.toml` under `[mode.main.binding]`, replacing `YOU
     alt-f = 'exec-and-forget /Users/YOUR_USERNAME/.local/bin/spacelight'
 ```
 
-Use the full path rather than a bare `spacelight`, since `exec-and-forget` does not run through your shell's `PATH`.
-
-If you have `auto-reload-config = true` in your config, saving the file is enough.
-Otherwise reload AeroSpace's config manually (`alt-shift-semicolon` then `esc` in the default config, or run `aerospace reload-config`).
-
-Any key works — `alt-f` is just an example. To use something else, change the key on the left; Spacelight neither knows nor cares which key launched it, so no rebuild or app-side config change is needed.
+Use the full path rather than a bare `spacelight`, since `exec-and-forget` does not run through your shell's `PATH`. Reload your config. 
 
 ## Usage
 
@@ -76,26 +69,17 @@ Search mode:
 | `Return` | Switch to the selected workspace or window |
 | `Esc` | Cancel the search and return to navigation mode |
 
-The two modes exist so that bare `j` and `k` can navigate. That only works while the search field is unfocused: with focus in a text field there is no way to tell "move down" from "the first letter of a query starting with `j`" at the moment the key is pressed. Hence `/` to search explicitly, and `⌃J` / `⌃K` while searching for anyone who prefers to keep their hands off the arrow keys.
-
-Escape is two-level: the first press cancels a search, the second closes the panel, so a mistyped query never costs you the whole session.
 
 The list shows:
-
 - **Workspaces** that currently have windows in them, each with a summary of the apps inside (e.g. `Chrome, Terminal`). Empty workspaces are skipped, since your existing `alt-1`-style bindings already cover visiting those.
 - **Windows** across every workspace, searchable by both app name and window title.
 
 ## How it runs
 
-Spacelight is one binary that plays two roles.
-Run bare, it is a thin client: it sends a message to the background agent over a unix socket and exits in a few milliseconds.
-Run as `spacelight --agent`, it is that agent — the process that holds the prewarmed panel and a warm cache of your AeroSpace state.
+Spacelight keeps a small background process running that holds the panel and a cached copy of your AeroSpace state, so pressing your key reveals something that already exists rather than building it.
 
-You never have to start the agent yourself.
-The first time you press your key, the client notices nobody is listening, starts the agent, and shows the panel.
-It survives reboots and crashes the same way, so there is no setup step and no login item to configure.
-
-That split is what makes it feel instant: the panel and its data already exist before you press the key, so opening it is not building anything.
+You never start that process yourself.
+The first key press starts it, and it comes back on its own after a reboot or a crash: no setup step, no login item.
 
 ### Other commands
 
@@ -106,8 +90,8 @@ spacelight            # same as `spacelight toggle`
 spacelight toggle     # show the panel, or hide it if already showing
 spacelight show       # show the panel
 spacelight hide       # hide the panel
-spacelight ping       # verify the agent is alive and can reach AeroSpace
-spacelight quit       # stop the background agent
+spacelight ping       # check Spacelight is running and can reach AeroSpace
+spacelight quit       # stop the background process
 ```
 
 ## Development
@@ -115,16 +99,16 @@ spacelight quit       # stop the background agent
 ```sh
 make build            # release build
 make test             # run the test suite
-make run-agent        # run the agent in the foreground, logging to the terminal
+make run-agent        # run in the foreground, logging to the terminal
 ```
 
-To watch what the agent is doing:
+To watch what Spacelight is doing:
 
 ```sh
 log stream --predicate 'subsystem == "com.spacelight"' --level debug
 ```
 
-Note that `.debug`-level messages are not persisted by the unified logging system — they exist only while something is actively streaming them. `log stream` has to be running *before* you reproduce an issue, or there will be nothing to read afterwards.
+Note that `.debug`-level messages are not persisted by the unified logging system, so they exist only while something is actively streaming them. `log stream` has to be running *before* you reproduce an issue, or there will be nothing to read afterwards.
 
 ## License
 
