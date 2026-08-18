@@ -15,12 +15,18 @@ Press your chosen key binding (eg. alt-f), a floating panel appears with your cu
 
 - macOS 14 or later
 - [AeroSpace](https://github.com/nikitabobko/AeroSpace) installed and running
-- Xcode 16 or later (or the matching Swift 6 toolchain) to build from source
+- Xcode 16 or later (or the matching Swift 6 toolchain) — only needed if building from source
 
 
 ## Install
 
-Build and install from source:
+### Homebrew
+
+```sh
+brew install zhenyufu/tap/spacelight
+```
+
+### Build from source
 
 ```sh
 git clone https://github.com/zhenyufu/spacelight.git
@@ -33,21 +39,25 @@ That installs a single binary to `~/.local/bin/spacelight`. No `sudo` needed.
 To remove it again:
 
 ```sh
-make uninstall
+make uninstall          # if built from source
+brew uninstall spacelight  # if installed via Homebrew
 ```
 
 ## Set up the keybinding
 
 Spacelight does **not** register a global hotkey of its own, and depends on your AeroSpace config for setting up a key binding.
 
-Add a binding to `~/.aerospace.toml` under `[mode.main.binding]`, replacing `YOUR_USERNAME` with your own:
+Add a binding to `~/.aerospace.toml` under `[mode.main.binding]`:
 
 ```toml
 [mode.main.binding]
-    alt-f = 'exec-and-forget /Users/YOUR_USERNAME/.local/bin/spacelight'
+    # If installed via Homebrew:
+    alt-f = 'exec-and-forget /opt/homebrew/bin/spacelight'
+    # If built from source (replace YOUR_USERNAME):
+    # alt-f = 'exec-and-forget /Users/YOUR_USERNAME/.local/bin/spacelight'
 ```
 
-Use the full path rather than a bare `spacelight`, since `exec-and-forget` does not run through your shell's `PATH`. Reload your config. 
+Use the full path rather than a bare `spacelight`, since `exec-and-forget` does not run through your shell's `PATH`. Reload your config.
 
 ## Usage
 
